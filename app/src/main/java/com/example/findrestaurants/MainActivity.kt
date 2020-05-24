@@ -1,7 +1,10 @@
 package com.example.findrestaurants
 
+import android.app.Application
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,15 +22,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import com.example.findrestaurants.db.DatabaseRestaurants
+import com.example.findrestaurants.db.models.Restaurant
+import com.example.findrestaurants.db.providers.DatabaseProvider
+import com.example.findrestaurants.db.repositories.RestaurantRepository
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var restaurantRepository: RestaurantRepository
 
     companion object {
         private val MY_PERMISSION_CODE: Int = 1000
         private var LOCATION_REQUEST_GRANTED = false
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -51,8 +61,10 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        dbOperations()
         checkLocationPermission()
     }
+
     private fun checkLocationPermission(): Boolean {
         if (ContextCompat.checkSelfPermission(
                 this,
@@ -78,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             return false
         } else
             LOCATION_REQUEST_GRANTED = true
-            return true
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -93,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun goToMapActivity(item: MenuItem) {
-        if(LOCATION_REQUEST_GRANTED) {
+        if (LOCATION_REQUEST_GRANTED) {
             val intent = Intent(this, MapsActivity::class.java)
             startActivity(intent)
             return
@@ -106,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if(requestCode == MY_PERMISSION_CODE) {
+        if (requestCode == MY_PERMISSION_CODE) {
             if (ContextCompat.checkSelfPermission(
                     this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -119,4 +131,31 @@ class MainActivity : AppCompatActivity() {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+    private fun dbOperations() {
+        restaurantRepository = RestaurantRepository(application)
+        restaurantRepository.deleteAllRestaurants()
+        insertRestaurants()
+        getRestaurants()
+    }
+    private fun insertRestaurants() {
+        restaurantRepository.insertRestaurant(
+            Restaurant("Restaurant1", "Restaurant with best description", 4.0
+            )
+        )
+        restaurantRepository.insertRestaurant(
+            Restaurant("Restaurant2", "Restaurant with best description 2", 3.0
+            )
+        )
+    }
+
+    private fun getRestaurants() {
+        val restaurants = restaurantRepository.selectlAllRestaurants()
+        restaurants.get(0).name = "Updated restaurant name"
+        restaurantRepository.updateRestaurant(restaurants.get(0))
+        Log.d("First restaurant in our db", restaurants.get(0).name)
+//        var dp = DatabaseProvider().
+//        Log.d("BANANA", dp.insert(Uri.parse("http://www.google.com"), ContentValues()).toString())
+    }
+
 }

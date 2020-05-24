@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.findrestaurants.R
+import com.example.findrestaurants.db.DatabaseRestaurants
 
 class HomeFragment : Fragment() {
 
