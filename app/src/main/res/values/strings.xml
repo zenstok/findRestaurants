@@ -18,4 +18,9 @@
     <string name="map_settings">Map Settings</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="about_us">About us</string>
+    <string name="favorite_restaurants">Favorite Restaurants</string>
+    <string name="restaurant_title">Restaurant title</string>
+    <string name="restaurant_rating">Restaurant rating</string>
 </resources>

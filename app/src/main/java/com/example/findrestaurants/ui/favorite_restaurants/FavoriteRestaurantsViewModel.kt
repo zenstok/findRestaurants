@@ -1,10 +1,10 @@
-package com.example.findrestaurants.ui.home
+package com.example.findrestaurants.ui.favorite_restaurants
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class FavoriteRestaurantsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"

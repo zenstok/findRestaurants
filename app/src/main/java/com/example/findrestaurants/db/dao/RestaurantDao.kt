@@ -1,6 +1,6 @@
 package com.example.findrestaurants.db.dao
 
-import androidx.lifecycle.LiveData
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -27,4 +27,8 @@ abstract class RestaurantDao {
     @Transaction
     @Query("UPDATE restaurants set name = :name, description = :description, rating = :rating where id= :id")
     abstract fun updateRestaurant(id: Long, name: String, description: String, rating: Double)
+
+    @Transaction
+    @Query("SELECT * FROM restaurants")
+    abstract fun selectAllRestaurantCursor(): Cursor?
 }

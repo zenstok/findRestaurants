@@ -1,7 +1,12 @@
 package com.example.findrestaurants
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -10,12 +15,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.findrestaurants.db.models.Restaurant
+import com.example.findrestaurants.db.repositories.RestaurantRepository
 import com.example.findrestaurants.placesAPI.Common
 import com.example.findrestaurants.placesAPI.models.MyPlaces
 import com.example.findrestaurants.services.IGoogleAPIService
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowLongClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -27,7 +35,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.lang.StringBuilder
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowLongClickListener {
 
     private lateinit var mMap: GoogleMap
     private var latitude: Double = 0.toDouble()
@@ -41,12 +49,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var locationRequest: LocationRequest
     lateinit var locationCallback: LocationCallback
 
+    private lateinit var restaurantRepository: RestaurantRepository
+
     companion object {
         private val MY_PERMISSION_CODE: Int = 1000
     }
 
     lateinit var mService: IGoogleAPIService
-    lateinit internal var currentPlace:MyPlaces
+    lateinit internal var currentPlace: MyPlaces
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +95,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             );
         }
 
+        restaurantRepository = RestaurantRepository(application)
     }
 
     private fun buildLocationCallBack() {
@@ -99,11 +111,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 longitude = mLastLocation.longitude
 
                 val latLng = LatLng(latitude, longitude)
-                val marketOptions = MarkerOptions()
+                val markerOptions = MarkerOptions()
                     .position(latLng)
                     .title("Your position")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-                mMarker = mMap!!.addMarker(marketOptions)
+                mMarker = mMap!!.addMarker(markerOptions)
 
                 //Move Camera
                 mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
@@ -187,10 +199,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .enqueue(object : Callback<MyPlaces> {
                 override fun onResponse(call: Call<MyPlaces>?, response: Response<MyPlaces>?) {
                     currentPlace = response!!.body()!!
-                    if(response!!.isSuccessful)
-                    {
-                        for(i in 0 until response!!.body()!!.results!!.size)
-                        {
+                    if (response!!.isSuccessful) {
+                        for (i in 0 until response!!.body()!!.results!!.size) {
                             val markerOptions = MarkerOptions()
                             val googlePlace = response.body()!!.results!![i]
                             val lat = googlePlace.geometry!!.location!!.lat
@@ -202,23 +212,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             markerOptions.snippet("Rating:" + rating)
                             markerOptions.position(latLng)
                             markerOptions.title(placeName)
-                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                            markerOptions.icon(
+                                BitmapDescriptorFactory.defaultMarker(
+                                    BitmapDescriptorFactory.HUE_ORANGE
+                                )
+                            )
                             mMap!!.addMarker(markerOptions)
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<MyPlaces>, t: Throwable) {
-                    Toast.makeText(baseContext, ""+t.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "" + t.message, Toast.LENGTH_SHORT).show()
                 }
             })
     }
 
     private fun getUrl(latitude: Double, longitude: Double): String {
-        val googlePlacesUrl = StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?radius=")
+        val googlePlacesUrl =
+            StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?radius=")
         googlePlacesUrl.append(Common.radius)
         googlePlacesUrl.append("&type=restaurant&keyword=cruise&key=AIzaSyAn2FYdW0i5aJdW1gsrzdB5hmUZQN_HQO0")
-        googlePlacesUrl.append("&location="+ latitude + "," + longitude)
+        googlePlacesUrl.append("&location=" + latitude + "," + longitude)
 
         return googlePlacesUrl.toString()
     }
@@ -248,6 +263,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.setOnInfoWindowLongClickListener(this);
 
+    }
+
+    override fun onInfoWindowLongClick(p0: Marker?) {
+        restaurantRepository.insertRestaurant(
+            Restaurant(
+                p0!!.title,
+                "",
+                p0!!.snippet.split(":")[1].toDouble()
+            )
+        )
+        Toast.makeText(
+            this, "Restaurant added to favorites!",
+            Toast.LENGTH_SHORT
+        ).show();
+
+        val intent = Intent(this@MapsActivity, RandomWidget::class.java)
+        intent.action = "android.appwidget.action.APPWIDGET_UPDATE"
+        val ids =
+            AppWidgetManager.getInstance(application).getAppWidgetIds(
+                ComponentName(
+                    application,
+                    RandomWidget::class.java
+                )
+            )
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+        sendBroadcast(intent)
     }
 }

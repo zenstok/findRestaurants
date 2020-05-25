@@ -2,6 +2,7 @@ package com.example.findrestaurants.db.repositories
 
 import android.app.Application
 import android.content.Context
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import com.example.findrestaurants.db.DatabaseRestaurants
 import com.example.findrestaurants.db.dao.RestaurantDao
@@ -39,5 +40,9 @@ class RestaurantRepository(application: Application?, context: Context? = null) 
 
     fun deleteAllRestaurants() {
         restaurantDao.deleteAllRestaurants()
+    }
+
+    fun selectAllRestaurantsCursor(): Cursor? {
+        return restaurantDao.selectAllRestaurantCursor()
     }
 }

@@ -1,6 +1,5 @@
 package com.example.findrestaurants.db.providers
 
-import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
@@ -17,7 +16,6 @@ class DatabaseProvider: ContentProvider() {
     }
 
     override fun insert(p0: Uri, p1: ContentValues?): Uri? {
-        Log.d("CONTENT PROVIDER", restaurantRepository.selectlAllRestaurants().get(0).name)
         return p0
     }
 
@@ -28,7 +26,7 @@ class DatabaseProvider: ContentProvider() {
         p3: Array<out String>?,
         p4: String?
     ): Cursor? {
-        return null
+        return restaurantRepository.selectAllRestaurantsCursor()
     }
 
     override fun update(p0: Uri, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int {

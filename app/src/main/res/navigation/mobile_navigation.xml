@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_favorite_restaurants">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.findrestaurants.ui.home.HomeFragment"
+        android:id="@+id/nav_favorite_restaurants"
+        android:name="com.example.findrestaurants.ui.favorite_restaurants.FavoriteRestaurantsFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
+            app:destination="@id/nav_favorite_restaurants_second" />
     </fragment>
     <fragment
-        android:id="@+id/nav_home_second"
-        android:name="com.example.findrestaurants.ui.home.HomeSecondFragment"
+        android:id="@+id/nav_favorite_restaurants_second"
+        android:name="com.example.findrestaurants.ui.favorite_restaurants.HomeSecondFragment"
         android:label="@string/home_second"
         tools:layout="@layout/fragment_home_second">
         <action
             android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_favorite_restaurants" />
 
         <argument
             android:name="myArg"
@@ -30,13 +30,13 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_tutorial"
         android:name="com.example.findrestaurants.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_about_us"
         android:name="com.example.findrestaurants.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
