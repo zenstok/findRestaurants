@@ -153,18 +153,18 @@ class MainActivity : AppCompatActivity() {
     }
     private fun insertRestaurants() {
         restaurantRepository.insertRestaurant(
-            Restaurant("Restaurant1", "Restaurant with best description", 4.0
+            Restaurant("Restaurant Excellence", "Restaurant with excellent description", 4.3
             )
         )
         restaurantRepository.insertRestaurant(
-            Restaurant("Restaurant2", "Restaurant with best description 2", 3.0
+            Restaurant("Frantzén", "Restaurant with michelin stars", 5.0
             )
         )
     }
 
     private fun getRestaurants() {
         val restaurants = restaurantRepository.selectlAllRestaurants()
-        restaurants.get(0).name = "Updated restaurant name"
+        restaurants.get(0).name = "Updated Restaurant Excellence"
         restaurantRepository.updateRestaurant(restaurants.get(0))
     }
 

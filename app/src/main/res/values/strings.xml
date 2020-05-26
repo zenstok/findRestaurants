@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FindRestaurants</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Find Restaurants</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -23,4 +23,17 @@
     <string name="favorite_restaurants">Favorite Restaurants</string>
     <string name="restaurant_title">Restaurant title</string>
     <string name="restaurant_rating">Restaurant rating</string>
+    <string name="favorite_restaursnts">Favorite Restaurants</string>
+    <string name="about_us_text">Aplicatie Android dezvoltata in limbajul de programare Kotlin, care suporta smartphone-uri cu API >= 16. Aplicatia a fost dezvoltata de \n
+        Tarabega Rares-Stefan \n
+        Cristea Daniel \n
+        Ghete Victor-Daniel \n
+        Paraschivescu Cristian-Mihnea
+    </string>
+    <string name="tutorial_text">
+        Pentru a vedea restaurantele din apropiere, faceti click pe Map. \n\n
+        Raza de cautare poate fi modificata din Map Settings. \n\n
+        Pentru a adauga un restaurant in lista de favorite, tineti apasat pe casuta cu informatii ce apare deasupra marker-ului unui restaurant \n\n
+        Componenta de tip widget poate fi pusa pe ecranul principal al telefonului, unde va fi afisata lista restaurantelor salvate.
+    </string>
 </resources>

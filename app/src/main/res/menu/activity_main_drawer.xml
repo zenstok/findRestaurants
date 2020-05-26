@@ -6,26 +6,26 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_favorite_restaurants"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/restaurant"
             android:title="@string/favorite_restaurants" />
         <item
             android:id="@+id/nav_tutorial"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/tutorial"
             android:title="@string/tutorial" />
         <item
             android:id="@+id/nav_about_us"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/about"
             android:title="@string/about_us" />
         <item
             android:onClick="goToMapActivity"
             android:id="@+id/nav_map"
-            android:icon="@drawable/common_google_signin_btn_icon_dark"
+            android:icon="@drawable/map2"
             android:title="@string/map" />
 
         <item
             android:onClick="goToMapSettingsActivity"
             android:id="@+id/nav_map_settings"
-            android:icon="@drawable/common_google_signin_btn_icon_dark"
+            android:icon="@drawable/settings2"
             android:title="@string/map_settings" />
     </group>
 </menu>

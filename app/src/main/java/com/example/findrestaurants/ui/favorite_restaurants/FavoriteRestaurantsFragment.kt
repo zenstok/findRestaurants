@@ -14,14 +14,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class FavoriteRestaurantsFragment : Fragment() {
 
-    private lateinit var homeViewModel: FavoriteRestaurantsViewModel
+    private lateinit var favoriteRestaurantsViewModel: FavoriteRestaurantsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
+        favoriteRestaurantsViewModel =
             ViewModelProviders.of(this).get(FavoriteRestaurantsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         return root

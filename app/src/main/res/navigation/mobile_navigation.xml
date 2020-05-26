@@ -8,36 +8,19 @@
     <fragment
         android:id="@+id/nav_favorite_restaurants"
         android:name="com.example.findrestaurants.ui.favorite_restaurants.FavoriteRestaurantsFragment"
-        android:label="@string/menu_home"
+        android:label="@string/favorite_restaursnts"
         tools:layout="@layout/fragment_home">
-
-        <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_favorite_restaurants_second" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_favorite_restaurants_second"
-        android:name="com.example.findrestaurants.ui.favorite_restaurants.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
-        <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_favorite_restaurants" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_tutorial"
-        android:name="com.example.findrestaurants.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.example.findrestaurants.ui.tutorial.TutorialFragment"
+        android:label="@string/tutorial"
+        tools:layout="@layout/fragment_tutorial" />
 
     <fragment
         android:id="@+id/nav_about_us"
-        android:name="com.example.findrestaurants.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.example.findrestaurants.ui.about_us.AboutUsFragment"
+        android:label="@string/about_us"
+        tools:layout="@layout/fragment_about_us" />
 </navigation>

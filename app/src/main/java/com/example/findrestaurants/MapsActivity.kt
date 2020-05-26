@@ -193,7 +193,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowLongCl
         mMap.clear()
 
         val url = getUrl(latitude, longitude)
-        Log.d("TEST", "aiciea este url " + url)
 
         mService.getNearbyRestaurants(url)
             .enqueue(object : Callback<MyPlaces> {
@@ -232,7 +231,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnInfoWindowLongCl
         val googlePlacesUrl =
             StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?radius=")
         googlePlacesUrl.append(Common.radius)
-        googlePlacesUrl.append("&type=restaurant&keyword=cruise&key=AIzaSyAn2FYdW0i5aJdW1gsrzdB5hmUZQN_HQO0")
+        googlePlacesUrl.append("&type=restaurant&key=AIzaSyAn2FYdW0i5aJdW1gsrzdB5hmUZQN_HQO0")
         googlePlacesUrl.append("&location=" + latitude + "," + longitude)
 
         return googlePlacesUrl.toString()
